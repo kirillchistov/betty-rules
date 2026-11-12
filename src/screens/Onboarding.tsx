@@ -6,11 +6,12 @@ import { Logo, Portrait, cx } from '../components/ui'
 const cards: { kicker: string; title: string; body: ReactNode; face: 'portrait' | 'logo' | 'both' }[] = [
   {
     kicker: 'Что это',
-    title: 'Свой курс',
+    title: 'Мой курс',
     face: 'portrait',
     body: (
       <p className="meaning">
-        Место для своих затей. Не учёба, не правила «как правильно жить» и не контрольная.
+        Место для твоих затей. Не учёба и не наставление «как тебе правильно жить». 
+        И уж точно не контрольная работа. Это попытка помочь тебе лучше понять себя.
       </p>
     ),
   },
@@ -20,18 +21,19 @@ const cards: { kicker: string; title: string; body: ReactNode; face: 'portrait' 
     face: 'logo',
     body: (
       <p className="meaning">
-        Можно поймать идею, сделать маленький шаг и не потерять то, что уже получилось. Оценок здесь нет.
+        Можно найти или создать идею (затею), сделать маленький шаг ее реализовать и не потерять то, что уже получилось. 
+        Оценки тебе здесь никто не ставит и инструций не предлагает. Но работать с идеей бывает сложно и эта штука может тебе помочь.
       </p>
     ),
   },
   {
     kicker: 'Как',
-    title: 'Три хода',
+    title: 'Три шага',
     face: 'both',
     body: (
       <ol className="steps">
-        <li>На «Сейчас» выбрать, с чем пришла.</li>
-        <li>Полистать затеи или записать свою.</li>
+        <li>На шаге «Сейчас» выбрать, что тебе сейчас ближе.</li>
+        <li>Полистать подборку затей или записать свою.</li>
         <li>Вернуться к ней в «Моих затеях», когда захочется.</li>
       </ol>
     ),
@@ -74,7 +76,7 @@ export function Onboarding() {
       <header className="topbar">
         <span className="brand">
           <Logo />
-          <span className="wordmark">Свой курс</span>
+          <span className="wordmark">Мой курс</span>
         </span>
         <button type="button" className="text-btn" onClick={enter}>
           Пропустить
@@ -145,11 +147,11 @@ export function Onboarding() {
           </button>
         )}
       </div>
-      {last ? (
-        <button type="button" className="text-btn" onClick={openSplash}>
+      <div className="onboarding-more">
+        <button type="button" className="text-btn" onClick={openSplash} hidden={!last}>
           Сначала короткие установки
         </button>
-      ) : null}
+      </div>
     </section>
   )
 }

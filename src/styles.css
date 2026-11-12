@@ -146,6 +146,33 @@ html[data-theme='lunar'] .moon {
   padding: 0.9rem 1rem 1.3rem;
 }
 
+.screen[data-screen='onboarding'] {
+  min-height: 100dvh;
+  padding-bottom: calc(1.3rem + env(safe-area-inset-bottom));
+}
+
+.screen[data-screen='onboarding'] .panel {
+  flex: 1;
+  justify-content: center;
+}
+
+.screen[data-screen='onboarding'] .face-row {
+  min-height: 104px;
+}
+
+.screen[data-screen='onboarding'] h1 {
+  min-height: 2.4em;
+}
+
+.screen[data-screen='onboarding'] .meaning,
+.screen[data-screen='onboarding'] .steps {
+  min-height: 8.4rem;
+}
+
+.onboarding-more {
+  min-height: 44px;
+}
+
 .has-nav .screen {
   padding-bottom: calc(6.2rem + env(safe-area-inset-bottom));
 }

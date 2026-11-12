@@ -68,7 +68,7 @@ export function TopBar({
       ) : (
         <span className="brand">
           <Logo />
-          <span className="wordmark">Свой курс</span>
+          <span className="wordmark">Мой курс</span>
         </span>
       )}
       {title ? <strong className="top-title">{title}</strong> : <span />}

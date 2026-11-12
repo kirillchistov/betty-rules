@@ -53,7 +53,7 @@ export function Splash() {
       <header className="topbar">
         <span className="brand">
           <Logo />
-          <span className="wordmark">Свой курс</span>
+          <span className="wordmark">Мой курс</span>
         </span>
         <ThemeSwitch />
       </header>
