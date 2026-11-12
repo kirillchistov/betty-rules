@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Sailor Moon × Monster High (Face Match)</title>
+<style>
+  body {
+    background: radial-gradient(circle at 50% 0%, #2a1a4a, #0f0820 70%);
+    font-family: "Trebuchet MS", sans-serif;
+    color: #fff;
+    padding: 30px 10px;
+    margin: 0;
+  }
+  h1 {
+    text-align: center;
+    font-size: 28px;
+    text-shadow: 0 0 12px #ff6fbf, 0 0 24px #b06fff;
+    margin-bottom: 8px;
+  }
+  .subtitle { text-align: center; opacity: .75; margin-bottom: 30px; font-style: italic; }
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .card {
+    background: linear-gradient(160deg, #ffffff10, #ffffff04);
+    border: 1px solid #ffffff20;
+    border-radius: 20px;
+    padding: 10px;
+    text-align: center;
+    transition: transform .3s, box-shadow .3s;
+  }
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 30px #ff6fbf40;
+  }
+  .card svg { width: 100%; height: auto; display: block; border-radius: 12px; }
+  .card p { margin: 8px 0 4px; font-weight: bold; font-size: 14px; letter-spacing: .5px; }
+</style>
+</head>
+<body>
+<h1>Sailor Moon × Monster High</h1>
+<p class="subtitle">Сходство с фото: светлые волосы, голубые глаза и веснушки 🌙🖤</p>
+
+<div class="gallery">
+
+<!-- 1. Sailor Moonster -->
+<div class="card">
+<svg viewBox="0 0 200 240">
+  <defs>
+    <!-- Базовое лицо (копируется во все SVG) -->
+    <g id="face-base">
+      <!-- Кожа -->
+      <ellipse cx="100" cy="105" rx="38" ry="46" fill="#fae3d9"/>
+      <!-- Веснушки -->
+      <circle cx="80" cy="115" r="1.2" fill="#d4a373"/>
+      <circle cx="85" cy="118" r="1" fill="#d4a373"/>
+      <circle cx="75" cy="118" r="1" fill="#d4a373"/>
+      <circle cx="120" cy="115" r="1.2" fill="#d4a373"/>
+      <circle cx="115" cy="118" r="1" fill="#d4a373"/>
+      <circle cx="125" cy="118" r="1" fill="#d4a373"/>
+      <circle cx="100" cy="120" r="1" fill="#d4a373"/>
+      <!-- Брови -->
+      <path d="M70 92 Q82 88 90 93" stroke="#8c6b4a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path d="M130 92 Q118 88 110 93" stroke="#8c6b4a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <!-- Глаза (Голубые, как на фото) -->
+      <ellipse cx="82" cy="105" rx="9" ry="11" fill="#fff" stroke="#333" stroke-width="1"/>
+      <ellipse cx="118" cy="105" rx="9" ry="11" fill="#fff" stroke="#333" stroke-width="1"/>
+      <circle cx="82" cy="105" r="6" fill="#7ba9c4"/>
+      <circle cx="118" cy="105" r="6" fill="#7ba9c4"/>
+      <circle cx="82" cy="105" r="2.5" fill="#111"/>
+      <circle cx="118" cy="105" r="2.5" fill="#111"/>
+      <circle cx="84" cy="103" r="1.5" fill="#fff"/>
+      <circle cx="120" cy="103" r="1.5" fill="#fff"/>
+      <!-- Ресницы -->
+      <path d="M73 100 L70 98 M75 105 L71 104 M125 100 L128 98 M125 105 L129 104" stroke="#111" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- Нос -->
+      <path d="M100 112 Q103 118 98 120" stroke="#d4a373" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <!-- Губы -->
+      <path d="M90 132 Q100 128 110 132 Q105 138 100 138 Q95 138 90 132 Z" fill="#e8a4a4"/>
+      <path d="M90 132 Q100 135 110 132" stroke="#c77a7a" stroke-width="1" fill="none"/>
+    </g>
+    <!-- Базовые волосы (прямой пробор, светлые) -->
+    <g id="hair-base">
+      <path d="M55 110 Q50 40 100 40 Q150 40 145 110 L155 200 Q140 220 130 200 L135 120 Q120 70 100 70 Q80 70 65 120 L70 200 Q60 220 45 200 Z" fill="#d4b07b"/>
+      <path d="M60 90 Q100 45 140 90 Q120 60 100 60 Q80 60 60 90 Z" fill="#c39e69"/>
+      <!-- Пряди у лица -->
+      <path d="M65 120 Q55 150 60 200 L70 200 Q65 150 75 120 Z" fill="#c39e69"/>
+      <path d="M135 120 Q145 150 140 200 L130 200 Q135 150 125 120 Z" fill="#c39e69"/>
+    </g>
+  </defs>
+
+  <circle cx="100" cy="120" r="95" fill="#fbeaff"/>
+  <use href="#hair-base"/>
+  <use href="#face-base"/>
+  
+  <!-- Одежда и монстр-детали -->
+  <rect x="89" y="148" width="22" height="26" fill="#ead5f2"/>
+  <path d="M60 200 Q62 165 100 160 Q138 165 140 200 L148 240 L52 240 Z" fill="#fff"/>
+  <path d="M70 168 L100 195 L130 168 L120 185 L100 195 L80 185 Z" fill="#2563eb"/>
+  <path d="M72 170 L100 196 L128 170" stroke="#fff" stroke-width="2" fill="none"/>
+  <path d="M84 180 Q100 172 116 180 Q100 188 84 180 Z" fill="#dc2626"/>
+  <circle cx="100" cy="180" r="4" fill="#fbbf24"/>
+  <!-- Тиара -->
+  <path d="M68 78 L100 68 L132 78 L122 86 L100 78 L78 86 Z" fill="#fbbf24"/>
+  <circle cx="100" cy="76" r="4" fill="#dc2626"/>
+  <!-- Клыки -->
+  <path d="M95 135 L96 140 L97 135 Z" fill="#fff"/>
+  <path d="M103 135 L104 140 L105 135 Z" fill="#fff"/>
+</svg>
+<p>Sailor Moonster</p>
+</div>
+
+<!-- 2. Sailor Franken-Stein -->
+<div class="card">
+<svg viewBox="0 0 200 240">
+  <circle cx="100" cy="120" r="95" fill="#e0f7fa"/>
+  <use href="#hair-base"/>
+  <use href="#face-base"/>
+  
+  <rect x="89" y="148" width="22" height="26" fill="#a7e8b8"/>
+  <path d="M60 200 Q62 165 100 160 Q138 165 140 200 L148 240 L52 240 Z" fill="#fff"/>
+  <rect x="84" y="150" width="6" height="6" fill="#888"/>
+  <rect x="110" y="150" width="6" height="6" fill="#888"/>
+  <path d="M70 168 L100 195 L130 168 L120 185 L100 195 L80 185 Z" fill="#1e40af"/>
+  <path d="M72 170 L100 196 L128 170" stroke="#fff" stroke-width="2" fill="none"/>
+  <path d="M84 180 Q100 172 116 180 Q100 188 84 180 Z" fill="#ec4899"/>
+  <circle cx="100" cy="180" r="4" fill="#111"/>
+  <!-- Швы на лице (аккуратные) -->
+  <path d="M65 85 L75 88" stroke="#333" stroke-width="1.5" stroke-dasharray="3 2"/>
+  <path d="M125 85 L135 88" stroke="#333" stroke-width="1.5" stroke-dasharray="3 2"/>
+  <path d="M85 145 Q100 150 115 145" stroke="#333" stroke-width="1.5" stroke-dasharray="4 3" fill="none"/>
+</svg>
+<p>Sailor Franken-Stein</p>
+</div>
+
+<!-- 3. Sailor Dracu-Moon -->
+<div class="card">
+<svg viewBox="0 0 200 240">
+  <circle cx="100" cy="120" r="95" fill="#ffe4ef"/>
+  <use href="#hair-base"/>
+  <!-- Розовые пряди (отсылка к Дракуле) -->
+  <path d="M65 120 Q55 150 60 200 L70 200 Q65 150 75 120 Z" fill="#ff8fc0"/>
+  <path d="M135 120 Q145 150 140 200 L130 200 Q135 150 125 120 Z" fill="#ff8fc0"/>
+  <use href="#face-base"/>
+  
+  <rect x="89" y="148" width="22" height="26" fill="#ffd1e0"/>
+  <path d="M55 160 L70 140 L100 158 L130 140 L145 160 L130 175 L100 160 L70 175 Z" fill="#111"/>
+  <path d="M60 200 Q62 165 100 160 Q138 165 140 200 L148 240 L52 240 Z" fill="#fff"/>
+  <path d="M70 168 L100 195 L130 168 L120 185 L100 195 L80 185 Z" fill="#dc2626"/>
+  <path d="M72 170 L100 196 L128 170" stroke="#fff" stroke-width="2" fill="none"/>
+  <path d="M84 180 Q100 172 116 180 Q100 188 84 180 Z" fill="#ec4899"/>
+  <circle cx="100" cy="180" r="4" fill="#fbbf24"/>
+  <!-- Клыки -->
+  <path d="M95 135 L96 141 L97 135 Z" fill="#fff"/>
+  <path d="M103 135 L104 141 L105 135 Z" fill="#fff"/>
+</svg>
+<p>Sailor Dracu-Moon</p>
+</div>
+
+<!-- 4. Sailor Clawdeen -->
+<div class="card">
+<svg viewBox="0 0 200 240">
+  <circle cx="100" cy="120" r="95" fill="#fff3c4"/>
+  <!-- Волчьи уши под волосами -->
+  <path d="M55 60 L65 30 L80 55 Z" fill="#6b3e1e"/>
+  <path d="M145 60 L135 30 L120 55 Z" fill="#6b3e1e"/>
+  <use href="#hair-base"/>
+  <use href="#face-base"/>
+  
+  <rect x="89" y="148" width="22" height="26" fill="#d4a373"/>
+  <path d="M60 200 Q62 165 100 160 Q138 165 140 200 L148 240 L52 240 Z" fill="#fff"/>
+  <path d="M70 168 L100 195 L130 168 L120 185 L100 195 L80 185 Z" fill="#7c3aed"/>
+  <path d="M72 170 L100 196 L128 170" stroke="#fff" stroke-width="2" fill="none"/>
+  <path d="M84 180 Q100 172 116 180 Q100 188 84 180 Z" fill="#fbbf24"/>
+  <circle cx="100" cy="180" r="4" fill="#6b3e1e"/>
+  <!-- Клыки (волчьи) -->
+  <path d="M94 135 L95 142 L96 135 Z" fill="#fff"/>
+  <path d="M104 135 L105 142 L106 135 Z" fill="#fff"/>
+</svg>
+<p>Sailor Clawdeen</p>
+</div>
+
+<!-- 5. Sailor Lagoona -->
+<div class="card">
+<svg viewBox="0 0 200 240">
+  <circle cx="100" cy="120" r="95" fill="#d0f0ff"/>
+  <use href="#hair-base"/>
+  <!-- Чешуйки на лице (легкие) -->
+  <circle cx="70" cy="110" r="1.5" fill="#38bdf8"/>
+  <circle cx="130" cy="110" r="1.5" fill="#38bdf8"/>
+  <use href="#face-base"/>
+  
+  <rect x="89" y="148" width="22" height="26" fill="#7dd3fc"/>
+  <path d="M62 108 Q50 112 62 120 Z" fill="#4fc3f7"/>
+  <path d="M138 108 Q150 112 138 120 Z" fill="#4fc3f7"/>
+  <path d="M60 200 Q62 165 100 160 Q138 165 140 200 L148 240 L52 240 Z" fill="#fff"/>
+  <path d="M70 168 L100 195 L130 168 L120 185 L100 195 L80 185 Z" fill="#0891b2"/>
+  <path d="M72 170 L100 196 L128 170" stroke="#fff" stroke-width="2" fill="none"/>
+  <path d="M84 180 Q100 172 116 180 Q100 188 84 180 Z" fill="#f472b6"/>
+  <circle cx="100" cy="180" r="4" fill="#fbbf24"/>
+</svg>
+<p>Sailor Lagoona</p>
+</div>
+
+<!-- 6. Sailor Cleo -->
+<div class="card">
+<svg viewBox="0 0 200 240">
+  <circle cx="100" cy="120" r="95" fill="#fff4d6"/>
+  <use href="#hair-base"/>
+  <use href="#face-base"/>
+  
+  <rect x="89" y="148" width="22" height="26" fill="#e8c39e"/>
+  <path d="M60 200 Q62 165 100 160 Q138 165 140 200 L148 240 L52 240 Z" fill="#fff"/>
+  <path d="M70 168 L100 195 L130 168 L120 185 L100 195 L80 185 Z" fill="#d4a017"/>
+  <path d="M72 170 L100 196 L128 170" stroke="#fff" stroke-width="2" fill="none"/>
+  <path d="M84 180 Q100 172 116 180 Q100 188 84 180 Z" fill="#0d9488"/>
+  <circle cx="100" cy="180" r="4" fill="#d4a017"/>
+  <!-- Золотой ободок -->
+  <path d="M62 78 Q100 68 138 78 L134 84 Q100 76 66 84 Z" fill="#d4a017"/>
+  <circle cx="100" cy="76" r="5" fill="#0d9488"/>
+  <!-- Бинты на шее -->
+  <path d="M89 155 L111 155 M89 160 L111 160" stroke="#f5f0e8" stroke-width="2"/>
+</svg>
+<p>Sailor Cleo</p>
+</div>
+
+<!-- 7. Sailor Ghoulia -->
+<div class="card">
+<svg viewBox="0 0 200 240">
+  <circle cx="100" cy="120" r="95" fill="#e8e0f0"/>
+  <use href="#hair-base"/>
+  <use href="#face-base"/>
+  
+  <rect x="89" y="148" width="22" height="26" fill="#b8c6d0"/>
+  <path d="M60 200 Q62 165 100 160 Q138 165 140 200 L148 240 L52 240 Z" fill="#fff"/>
+  <path d="M70 168 L100 195 L130 168 L120 185 L100 195 L80 185 Z" fill="#dc2626"/>
+  <path d="M72 170 L100 196 L128 170" stroke="#fff" stroke-width="2" fill="none"/>
+  <path d="M84 180 Q100 172 116 180 Q100 188 84 180 Z" fill="#2563eb"/>
+  <circle cx="100" cy="180" r="4" fill="#fff"/>
+  <!-- Очки -->
+  <ellipse cx="82" cy="105" rx="14" ry="13" fill="none" stroke="#111" stroke-width="2"/>
+  <ellipse cx="118" cy="105" rx="14" ry="13" fill="none" stroke="#111" stroke-width="2"/>
+  <path d="M96 105 L104 105" stroke="#111" stroke-width="2"/>
+</svg>
+<p>Sailor Ghoulia</p>
+</div>
+
+<!-- 8. Sailor Spectra -->
+<div class="card">
+<svg viewBox="0 0 200 240">
+  <circle cx="100" cy="120" r="95" fill="#f5e8ff"/>
+  <use href="#hair-base" opacity="0.9"/>
+  <use href="#face-base" opacity="0.9"/>
+  
+  <rect x="89" y="148" width="22" height="26" fill="#f8f0ff"/>
+  <path d="M60 200 Q62 165 100 160 Q138 165 140 200 L148 240 L52 240 Z" fill="#fff" opacity=".7"/>
+  <path d="M70 168 L100 195 L130 168 L120 185 L100 195 L80 185 Z" fill="#a855f7"/>
+  <path d="M72 170 L100 196 L128 170" stroke="#fff" stroke-width="2" fill="none"/>
+  <path d="M84 180 Q100 172 116 180 Q100 188 84 180 Z" fill="#c084fc"/>
+  <circle cx="100" cy="180" r="4" fill="#fff"/>
+  <!-- Призрачные пряди -->
+  <path d="M55 125 Q48 160 55 195 M145 125 Q152 160 145 195" stroke="#e0c8ff" stroke-width="4" fill="none" opacity=".8"/>
+</svg>
+<p>Sailor Spectra</p>
+</div>
+
+<!-- 9. Sailor Abbey -->
+<div class="card">
+<svg viewBox="0 0 200 240">
+  <circle cx="100" cy="120" r="95" fill="#e0f4ff"/>
+  <use href="#hair-base"/>
+  <!-- Ледяная корона -->
+  <path d="M66 60 L72 40 L82 58 L90 38 L100 58 L110 38 L118 58 L128 40 L134 60 Z" fill="#a5f3fc" stroke="#38bdf8" stroke-width="1.5"/>
+  <use href="#face-base"/>
+  
+  <rect x="89" y="148" width="22" height="26" fill="#cfe8f7"/>
+  <path d="M60 200 Q62 165 100 160 Q138 165 140 200 L148 240 L52 240 Z" fill="#fff"/>
+  <path d="M58 175 Q70 158 100 160 Q130 158 142 175 Q130 168 100 168 Q70 168 58 175 Z" fill="#f0f9ff"/>
+  <path d="M70 168 L100 195 L130 168 L120 185 L100 195 L80 185 Z" fill="#0ea5e9"/>
+  <path d="M72 170 L100 196 L128 170" stroke="#fff" stroke-width="2" fill="none"/>
+  <path d="M84 180 Q100 172 116 180 Q100 188 84 180 Z" fill="#c084fc"/>
+  <circle cx="100" cy="180" r="4" fill="#fff"/>
+  <!-- Ледяные блестки -->
+  <path d="M68 85 L72 81 M72 85 L68 81" stroke="#38bdf8" stroke-width="1.5"/>
+</svg>
+<p>Sailor Abbey</p>
+</div>
+
+<!-- 10. Sailor Twyla -->
+<div class="card">
+<svg viewBox="0 0 200 240">
+  <circle cx="100" cy="120" r="95" fill="#ece0ff"/>
+  <use href="#hair-base"/>
+  <!-- Фиолетовые кончики -->
+  <path d="M60 200 Q50 190 45 200 Q55 220 70 200 Z" fill="#a78bfa"/>
+  <path d="M140 200 Q150 190 155 200 Q145 220 130 200 Z" fill="#a78bfa"/>
+  <use href="#face-base"/>
+  
+  <rect x="89" y="148" width="22" height="26" fill="#e0d0f5"/>
+  <path d="M60 200 Q62 165 100 160 Q138 165 140 200 L148 240 L52 240 Z" fill="#fff"/>
+  <path d="M70 168 L100 195 L130 168 L120 185 L100 195 L80 185 Z" fill="#7c3aed"/>
+  <path d="M72 170 L100 196 L128 170" stroke="#fff" stroke-width="2" fill="none"/>
+  <path d="M84 180 Q100 172 116 180 Q100 188 84 180 Z" fill="#a78bfa"/>
+  <circle cx="100" cy="180" r="4" fill="#fff"/>
+  <!-- Сонные звездочки -->
+  <path d="M150 60 l3 -6 l3 6 l6 1 l-5 4 l1 6 l-5 -3 l-5 3 l1 -6 l-5 -4 z" fill="#fbbf24"/>
+  <path d="M45 130 l2 -4 l2 4 l4 1 l-3 3 l1 4 l-4 -2 l-4 2 l1 -4 l-3 -3 z" fill="#fbbf24"/>
+</svg>
+<p>Sailor Twyla</p>
+</div>
+
+</div>
+</body>
+</html>
