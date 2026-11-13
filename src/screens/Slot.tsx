@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { flushSync } from 'react-dom'
-import { go } from '../router'
+import { attemptTitle, makeAttempt } from '../state/attempt'
 import { useStore } from '../state/context'
-import { TopBar } from '../components/ui'
+import { useKeep } from '../state/keep'
+import { TopBar, uid } from '../components/ui'
 
 export function Slot({ id }: { id: string }) {
   const { state, update } = useStore()
+  const keep = useKeep()
   const slot = state.openSlots.find((item) => item.id === id)
   const [title, setTitle] = useState(slot?.customTitle ?? '')
   const [note, setNote] = useState(slot?.note ?? '')
@@ -85,18 +87,24 @@ export function Slot({ id }: { id: string }) {
             onClick={() => {
               const customTitle = title.trim()
               const nextNote = note.trim()
+              const item = makeAttempt({
+                id: uid(),
+                title: attemptTitle(customTitle),
+                note: nextNote,
+                source: { type: 'slot', slotId: id },
+              })
               flushSync(() => {
                 update((current) => ({
                   ...current,
-                  openSlots: current.openSlots.map((item) =>
-                    item.id === id ? { ...item, customTitle, note: nextNote } : item,
+                  openSlots: current.openSlots.map((entry) =>
+                    entry.id === id ? { ...entry, customTitle, note: nextNote } : entry,
                   ),
                 }))
               })
-              go({ name: 'thing', id: 'new', slotId: id })
+              keep(item)
             }}
           >
-            Завести затею с этим названием
+            Оставить попытку с этим названием
           </button>
         ) : null}
       </article>

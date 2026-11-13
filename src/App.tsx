@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Nav } from './components/Nav'
 import { cx } from './components/ui'
+import { Mantras } from './screens/Mantras'
+import { useMantraIdle } from './screens/useMantraIdle'
 import { Now } from './screens/Now'
 import { Onboarding } from './screens/Onboarding'
+import { Try } from './screens/Try'
 import { Settings } from './screens/Settings'
 import { Slot } from './screens/Slot'
 import { Splash } from './screens/Splash'
@@ -23,7 +26,7 @@ export function App() {
 
 function Root() {
   const { state } = useStore()
-  const [route, setRoute] = useState<Route>(() => resolve(location.hash, state.seenOnboarding))
+  const [route, setRoute] = useState<Route>(() => resolve(location.hash))
 
   useEffect(() => {
     document.documentElement.dataset.theme = state.theme
@@ -40,16 +43,17 @@ function Root() {
         setRoute(parsed)
         return
       }
-      const next: Route = state.seenOnboarding ? { name: 'now' } : { name: 'onboarding' }
+      const next: Route = { name: 'now' }
       go(next, 'replace')
       setRoute(next)
     }
     sync()
     window.addEventListener('hashchange', sync)
     return () => window.removeEventListener('hashchange', sync)
-  }, [state.seenOnboarding])
+  }, [])
 
-  const showNav = route.name === 'now' || route.name === 'zine' || route.name === 'things'
+  const showNav = route.name === 'now' || route.name === 'zine' || route.name === 'things' || route.name === 'mantras'
+  const [asleep, wake] = useMantraIdle(state.mantrasEnabled, route.name === 'mantras')
 
   return (
     <div className="app">
@@ -57,6 +61,11 @@ function Root() {
         <div className="moon" aria-hidden="true" />
         <Screen route={route} />
         {showNav ? <Nav current={route.name} /> : null}
+        {asleep ? (
+          <div className="mantra-sleep" role="dialog" aria-modal="true" aria-label="Мантры">
+            <Mantras onClose={wake} />
+          </div>
+        ) : null}
       </div>
     </div>
   )
@@ -70,6 +79,8 @@ function Screen({ route }: { route: Route }) {
       return <Splash />
     case 'now':
       return <Now />
+    case 'try':
+      return <Try key={route.id} id={route.id} />
     case 'zine':
       return <Zine stuck={route.stuck} />
     case 'story':
@@ -78,6 +89,8 @@ function Screen({ route }: { route: Route }) {
       return <Slot key={route.id} id={route.id} />
     case 'things':
       return <Things />
+    case 'mantras':
+      return <Mantras />
     case 'thing':
       return (
         <Thing

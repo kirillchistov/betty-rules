@@ -75,6 +75,22 @@ export function Settings() {
       </section>
 
       <section className="stack">
+        <h2>Мантры</h2>
+        <p className="quiet">
+          Если минуту ничего не нажимать, поверх экрана появятся карточки с этими формулировками. Пункт «Мантры»
+          внизу открывает их сразу.
+        </p>
+        <button
+          type="button"
+          className={state.mantrasEnabled ? 'chip on' : 'chip'}
+          aria-pressed={state.mantrasEnabled}
+          onClick={() => update((current) => ({ ...current, mantrasEnabled: !current.mantrasEnabled }))}
+        >
+          {state.mantrasEnabled ? 'Отключить мантры' : 'Включить мантры'}
+        </button>
+      </section>
+
+      <section className="stack">
         <h2>Интересы</h2>
         <p className="quiet">На историях поднимем похожие шаги выше. Ничего не спрячем.</p>
         <div className="row wrap">

@@ -59,6 +59,7 @@ export type FeedbackNote = {
 export type AppState = {
   seenOnboarding: boolean
   seenSplash: boolean
+  mantrasEnabled: boolean
   theme: ThemeName
   interests: InterestId[]
   timeChoice: TimeChoice | null

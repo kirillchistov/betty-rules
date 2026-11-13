@@ -2,10 +2,12 @@ export type Route =
   | { name: 'onboarding' }
   | { name: 'splash' }
   | { name: 'now' }
+  | { name: 'try'; id: string }
   | { name: 'zine'; stuck: boolean }
   | { name: 'story'; id: string }
   | { name: 'slot'; id: string }
   | { name: 'things' }
+  | { name: 'mantras' }
   | {
       name: 'thing'
       id: string
@@ -26,10 +28,12 @@ export function parseHash(hash: string): Route | null {
   if (head === 'onboarding') return { name: 'onboarding' }
   if (head === 'splash') return { name: 'splash' }
   if (head === 'now') return { name: 'now' }
+  if (head === 'try' && parts[1]) return { name: 'try', id: decodeURIComponent(parts[1]) }
   if (head === 'zine') return { name: 'zine', stuck: query.get('stuck') === '1' }
   if (head === 'story' && parts[1]) return { name: 'story', id: decodeURIComponent(parts[1]) }
   if (head === 'slot' && parts[1]) return { name: 'slot', id: decodeURIComponent(parts[1]) }
   if (head === 'things') return { name: 'things' }
+  if (head === 'mantras') return { name: 'mantras' }
   if (head === 'settings') return { name: 'settings' }
   if (head === 'thing' && parts[1]) {
     const storyId = query.get('story') || undefined
@@ -55,6 +59,8 @@ export function toHash(route: Route): string {
       return '#/splash'
     case 'now':
       return '#/now'
+    case 'try':
+      return `#/try/${encodeURIComponent(route.id)}`
     case 'zine':
       return route.stuck ? '#/zine?stuck=1' : '#/zine'
     case 'story':
@@ -63,6 +69,8 @@ export function toHash(route: Route): string {
       return `#/slot/${encodeURIComponent(route.id)}`
     case 'things':
       return '#/things'
+    case 'mantras':
+      return '#/mantras'
     case 'settings':
       return '#/settings'
     case 'thing': {
@@ -84,6 +92,6 @@ export function go(route: Route, mode: 'push' | 'replace' = 'push') {
   else location.hash = next
 }
 
-export function resolve(hash: string, seenOnboarding: boolean): Route {
-  return parseHash(hash) ?? (seenOnboarding ? { name: 'now' } : { name: 'onboarding' })
+export function resolve(hash: string): Route {
+  return parseHash(hash) ?? { name: 'now' }
 }

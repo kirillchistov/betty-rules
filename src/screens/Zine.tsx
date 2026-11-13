@@ -14,7 +14,7 @@ export function Zine({ stuck }: { stuck: boolean }) {
       <SaveWarning />
       {stuck ? <p className="sticker">если застряла — можно отсюда</p> : null}
       <p className="meaning">
-        Шесть затей. Три уже написаны. Три пустые — их можно назвать своими словами. Мы туда ничего не подставили.
+        Три истории. Их можно почитать после попытки — или вместо неё. Пустые темы мы сюда пачкой не выставили.
       </p>
       <div className="catalog">
         {ordered.map((story) => (
@@ -31,21 +31,27 @@ export function Zine({ stuck }: { stuck: boolean }) {
             </span>
           </a>
         ))}
-        {state.openSlots.map((slot, index) => {
-          const named = slot.customTitle.trim()
-          return (
+        {state.openSlots
+          .filter((slot) => slot.customTitle.trim())
+          .map((slot) => (
             <a key={slot.id} className="catalog-card empty" href={`#/slot/${slot.id}`}>
               <Logo className="face-card" />
               <span className="card-copy">
-                <span className="sticker">без истории</span>
-                <strong>{named || 'Пока без названия'}</strong>
-                <span>{named ? 'Твоя формулировка' : `Слот ${index + 1}. Можно назвать самой.`}</span>
-                {slot.note.trim() ? <em>{slot.note}</em> : null}
+                <span className="sticker">твоя тема</span>
+                <strong>{slot.customTitle.trim()}</strong>
+                {slot.note.trim() ? <em>{slot.note}</em> : <span>Твоя формулировка</span>}
               </span>
             </a>
-          )
-        })}
+          ))}
       </div>
+      {state.openSlots.some((slot) => !slot.customTitle.trim()) ? (
+        <a
+          className="text-btn"
+          href={`#/slot/${state.openSlots.find((slot) => !slot.customTitle.trim())!.id}`}
+        >
+          Своя тема, если хочется назвать самой
+        </a>
+      ) : null}
     </section>
   )
 }

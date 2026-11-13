@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
 import { interestLabel } from '../content/interests'
-import { orderActions, storyById, type StoryPanel } from '../content/stories'
+import { orderActions, storyById, type StoryAction, type StoryPanel } from '../content/stories'
+import { attemptTitle, makeAttempt } from '../state/attempt'
 import { useStore } from '../state/context'
-import { Logo, Portrait, TimeNote, TopBar, cx } from '../components/ui'
+import { useKeep } from '../state/keep'
+import { Logo, Portrait, TimeNote, TopBar, cx, uid } from '../components/ui'
 
 export function Story({ id }: { id: string }) {
   const { state } = useStore()
+  const keep = useKeep()
   const story = storyById(id)
   const [index, setIndex] = useState(0)
   const start = useRef<{ x: number; y: number } | null>(null)
@@ -42,6 +45,18 @@ export function Story({ id }: { id: string }) {
   const total = story.panels.length + 1
   const actions = orderActions(story.actions, state.interests)
   const onActions = index === story.panels.length
+  const lead = actions[0]
+
+  function keepAction(action: StoryAction) {
+    keep(
+      makeAttempt({
+        id: uid(),
+        title: attemptTitle(action.label),
+        nextStep: action.nextStep,
+        source: { type: 'story', storyId: story!.id, actionId: action.id },
+      }),
+    )
+  }
 
   function show(next: number) {
     setIndex(Math.max(0, Math.min(story!.panels.length, next)))
@@ -82,12 +97,25 @@ export function Story({ id }: { id: string }) {
         {onActions ? (
           <>
             <Logo className="face-md" />
-            <Actions storyId={story.id} actions={actions} boosted={state.interests.length > 0} />
+            <Actions
+              storyId={story.id}
+              actions={actions}
+              boosted={state.interests.length > 0}
+              onKeep={keepAction}
+            />
           </>
         ) : (
           <>
             {index === 0 ? <Portrait className="face-md" /> : null}
             <Panel panel={story.panels[index]} />
+            {index === 0 && lead ? (
+              <div className="stack">
+                <p className="meaning">{lead.label}</p>
+                <button type="button" className="btn" onClick={() => keepAction(lead)}>
+                  Оставить попытку
+                </button>
+              </div>
+            ) : null}
           </>
         )}
       </article>
@@ -160,35 +188,31 @@ function Actions({
   storyId,
   actions,
   boosted,
+  onKeep,
 }: {
   storyId: string
   actions: ReturnType<typeof orderActions>
   boosted: boolean
+  onKeep: (action: StoryAction) => void
 }) {
   return (
     <>
       <p className="kicker">Что можно сделать</p>
-      <p className="meaning">
-        Дальше не обязательная программа. Можно взять шаг, назвать свой или просто закрыть.
-      </p>
+      <p className="meaning">Можно оставить попытку сразу. Форма не обязательна.</p>
       <p className="quiet">
         Рисунок, одежда, танцы и музыка здесь — варианты шага, не отдельные курсы.
         {boosted ? ' Сначала то, что ближе к выбранным интересам. Остальное тоже здесь.' : ''}
       </p>
       <div className="choices">
         {actions.map((action) => (
-          <a
-            key={action.id}
-            className="choice"
-            href={`#/thing/new?story=${storyId}&action=${action.id}`}
-          >
+          <button key={action.id} type="button" className="choice" onClick={() => onKeep(action)}>
             <strong>{action.label}</strong>
             {action.interests.length > 0 ? (
               <span>{action.interests.map(interestLabel).join(' · ')}</span>
             ) : (
               <span>любое дело</span>
             )}
-          </a>
+          </button>
         ))}
         <a className="choice own" href={`#/thing/new?story=${storyId}`}>
           <strong>Хочу сделать иначе</strong>

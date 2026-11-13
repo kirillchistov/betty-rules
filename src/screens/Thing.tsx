@@ -3,7 +3,9 @@ import { flushSync } from 'react-dom'
 import { statusOptions, wouldStartOptions } from '../content/interests'
 import { storyById } from '../content/stories'
 import { go, type Route } from '../router'
+import { attemptTitle, keptSummary, makeAttempt } from '../state/attempt'
 import { useStore } from '../state/context'
+import { useKeep } from '../state/keep'
 import type { Item, ItemStatus, Reflection, WouldStart } from '../state/types'
 import { Dialog, Field, SaveWarning, TopBar, isHttpLink, uid } from '../components/ui'
 
@@ -17,14 +19,15 @@ const emptyReflection = (): Reflection => ({
 
 export function Thing({ route }: { route: ThingRoute }) {
   const { state, update } = useStore()
+  const keep = useKeep()
   const existing = route.id === 'new' ? undefined : state.items.find((item) => item.id === route.id)
   const story = route.storyId ? storyById(route.storyId) : undefined
   const action = story?.actions.find((item) => item.id === route.actionId)
   const slot = route.slotId ? state.openSlots.find((item) => item.id === route.slotId) : undefined
   const missing = route.id !== 'new' && !existing
 
-  const [title, setTitle] = useState(existing?.title ?? action?.label ?? slot?.customTitle.trim() ?? '')
-  const [note, setNote] = useState(existing?.note ?? (story ? `Из истории «${story.title}»` : (slot?.note ?? '')))
+  const [title, setTitle] = useState(existing?.title ?? slot?.customTitle.trim() ?? '')
+  const [note, setNote] = useState(existing?.note ?? (slot?.note ?? ''))
   const [link, setLink] = useState(existing?.link ?? '')
   const [nextStep, setNextStep] = useState(existing?.nextStep ?? action?.nextStep ?? '')
   const [status, setStatus] = useState<ItemStatus>(existing?.status ?? action?.status ?? 'idea')
@@ -32,6 +35,8 @@ export function Thing({ route }: { route: ThingRoute }) {
   const [error, setError] = useState('')
   const [flash, setFlash] = useState(route.saved === true)
   const [confirmDelete, setConfirmDelete] = useState(false)
+  const [showAll, setShowAll] = useState(false)
+  const [extra, setExtra] = useState<'link' | 'note' | null>(null)
 
   useEffect(() => {
     if (!route.saved || route.id === 'new') return
@@ -53,14 +58,18 @@ export function Thing({ route }: { route: ThingRoute }) {
     )
   }
 
-  const back =
-    existing || route.id !== 'new'
-      ? '#/things'
-      : route.storyId
-        ? `#/story/${route.storyId}`
-        : route.slotId
-          ? `#/slot/${route.slotId}`
-          : '#/now'
+  const back = existing ? '#/things' : route.storyId ? `#/story/${route.storyId}` : '#/now'
+
+  function persist(item: Item) {
+    flushSync(() => {
+      update((current) => ({
+        ...current,
+        items: [item, ...current.items.filter((entry) => entry.id !== item.id)],
+      }))
+    })
+    setError('')
+    setFlash(true)
+  }
 
   function save() {
     const nextTitle = title.trim()
@@ -83,16 +92,27 @@ export function Thing({ route }: { route: ThingRoute }) {
     }
     if (source) item.source = source
     if (cleaned) item.reflection = cleaned
+    if (!existing) {
+      keep(item)
+      return
+    }
+    persist(item)
+    setShowAll(false)
+    setExtra(null)
+  }
 
-    flushSync(() => {
-      update((current) => ({
-        ...current,
-        items: [item, ...current.items.filter((entry) => entry.id !== item.id)],
-      }))
+  function createOwn() {
+    const source = sourceFromRoute(route)
+    const item = makeAttempt({
+      id: uid(),
+      title: title.trim() ? attemptTitle(title.trim()) : attemptTitle(action?.label || 'Своя затея'),
+      note: note.trim() || (!action && story ? `Из истории «${story.title}»` : ''),
+      link,
+      nextStep: nextStep.trim() || action?.nextStep || '',
+      source,
     })
-    setError('')
-    if (existing) setFlash(true)
-    else go({ name: 'thing', id: item.id, saved: true }, 'replace')
+    if (status !== 'draft') item.status = status
+    keep(item)
   }
 
   function remove() {
@@ -101,18 +121,156 @@ export function Thing({ route }: { route: ThingRoute }) {
     go({ name: 'things' }, 'replace')
   }
 
+  if (!existing) {
+    return (
+      <section className="screen" data-screen="thing">
+        <TopBar back={back} title="Новая затея" />
+        <SaveWarning />
+        <h1>{action ? action.label : 'Своя идея'}</h1>
+        <p className="meaning">
+          {action
+            ? 'Можно оставить попытку с этим шагом. Название придумается само, с сегодняшней датой.'
+            : 'Название можно не придумывать. Если поле пустое, сохранится «Своя затея» и дата.'}
+        </p>
+        {action ? <p className="attempt">{action.nextStep}</p> : null}
+        <form
+          className="stack"
+          onSubmit={(event) => {
+            event.preventDefault()
+            createOwn()
+          }}
+        >
+          {action ? null : (
+            <Field
+              label="Что хочется сделать"
+              value={note}
+              onChange={setNote}
+              multiline
+              maxLength={4000}
+            />
+          )}
+          <Field
+            label="Своё название, если хочется"
+            value={title}
+            onChange={setTitle}
+            maxLength={400}
+            hint="Необязательно."
+          />
+          <details className="reflection">
+            <summary>Ссылка или следующий шаг</summary>
+            <Field
+              label="Внешняя ссылка, если есть"
+              value={link}
+              onChange={setLink}
+              type="url"
+              maxLength={2000}
+              placeholder="https://"
+            />
+            <Field
+              label="Следующий шаг"
+              value={nextStep}
+              onChange={setNextStep}
+              multiline
+              maxLength={400}
+            />
+          </details>
+          <button type="submit" className="btn">
+            Оставить у себя
+          </button>
+          <p className="quiet">Рисунок и видео сами не загружаются. Сюда попадает то, что написано.</p>
+        </form>
+      </section>
+    )
+  }
+
   const href = isHttpLink(link) ? link.trim() : ''
+
+  if (!showAll) {
+    return (
+      <section className="screen" data-screen="thing">
+        <TopBar back={back} title="Затея" />
+        <SaveWarning />
+        <p className="banner" role="status">
+          {flash ? 'Попытка осталась в «Моих затеях».' : 'Она лежит в «Моих затеях».'}
+        </p>
+        <article className="panel">
+          <h1>{existing.title}</h1>
+          {existing.nextStep ? <p className="attempt">{existing.nextStep}</p> : null}
+          {existing.note ? <p className="meaning">{existing.note}</p> : null}
+          <p className="quiet">{keptSummary(existing)}</p>
+          {href ? (
+            <a className="text-btn" href={href} target="_blank" rel="noreferrer noopener">
+              Открыть ссылку
+            </a>
+          ) : null}
+        </article>
+        <div className="row wrap">
+          <button type="button" className="btn ghost" onClick={() => setExtra(extra === 'link' ? null : 'link')}>
+            {existing.link ? 'Изменить ссылку' : 'Добавить ссылку'}
+          </button>
+          <button type="button" className="btn ghost" onClick={() => setExtra(extra === 'note' ? null : 'note')}>
+            {existing.note ? 'Изменить пару слов' : 'Написать пару слов'}
+          </button>
+          <a className="btn" href="#/now">
+            Продолжить потом
+          </a>
+        </div>
+        {extra ? (
+          <form
+            className="stack"
+            onSubmit={(event) => {
+              event.preventDefault()
+              save()
+            }}
+          >
+            {extra === 'link' ? (
+              <Field
+                label="Внешняя ссылка"
+                value={link}
+                onChange={setLink}
+                type="url"
+                maxLength={2000}
+                placeholder="https://"
+                hint="Ссылка откроется снаружи. Это не публикация и не сам файл."
+              />
+            ) : (
+              <Field label="Пара слов" value={note} onChange={setNote} multiline maxLength={4000} />
+            )}
+            {error ? <p className="form-error">{error}</p> : null}
+            <button type="submit" className="btn">
+              Оставить и это
+            </button>
+          </form>
+        ) : null}
+        <button type="button" className="text-btn" onClick={() => setShowAll(true)}>
+          Дописать карточку
+        </button>
+        <button type="button" className="text-btn danger-text" onClick={() => setConfirmDelete(true)}>
+          Убрать из коллекции
+        </button>
+        {confirmDelete ? (
+          <Dialog
+            title="Убрать эту затею?"
+            text="Она исчезнет из «Моих затей» в этом браузере."
+            confirm="Убрать"
+            danger
+            onConfirm={remove}
+            onClose={() => setConfirmDelete(false)}
+          />
+        ) : null}
+      </section>
+    )
+  }
 
   return (
     <section className="screen" data-screen="thing">
-      <TopBar back={back} title={existing ? 'Затея' : 'Новая затея'} />
+      <TopBar back={back} title="Затея" />
       <SaveWarning />
       {flash ? (
         <p className="banner" role="status">
           Сохранено в этом браузере. Это не публикация.
         </p>
       ) : null}
-      {flash && nextStep.trim() ? <p className="hand aside">Дальше, если захочешь: {nextStep}</p> : null}
       <form
         className="stack"
         onSubmit={(event) => {
@@ -153,11 +311,10 @@ export function Thing({ route }: { route: ThingRoute }) {
             ))}
           </div>
         </fieldset>
-
         <details className="reflection">
           <summary>Если уже что-то сделала</summary>
           <p className="quiet">
-            Это про время на твоё дело, не про время внутри «Своего курса». Можно не заполнять — и это не оценка.
+            Это про время на твоё дело, не про время внутри приложения. Можно не заполнять — и это не оценка.
           </p>
           <Field
             label="Что получилось сделать?"
@@ -195,28 +352,14 @@ export function Thing({ route }: { route: ThingRoute }) {
             </div>
           </fieldset>
         </details>
-
         {error ? <p className="form-error">{error}</p> : null}
         <button type="submit" className="btn">
-          Сохранить в мои затеи
+          Сохранить
         </button>
-        <p className="quiet">Сохранится в этом браузере, не в облаке.</p>
       </form>
-      {existing ? (
-        <button type="button" className="text-btn danger-text" onClick={() => setConfirmDelete(true)}>
-          Убрать из коллекции
-        </button>
-      ) : null}
-      {confirmDelete ? (
-        <Dialog
-          title="Убрать эту затею?"
-          text="Она исчезнет из «Моих затей» в этом браузере."
-          confirm="Убрать"
-          danger
-          onConfirm={remove}
-          onClose={() => setConfirmDelete(false)}
-        />
-      ) : null}
+      <button type="button" className="text-btn" onClick={() => setShowAll(false)}>
+        Вернуться к попытке
+      </button>
     </section>
   )
 }

@@ -37,6 +37,7 @@ export function createDefaultState(): AppState {
   return {
     seenOnboarding: false,
     seenSplash: false,
+    mantrasEnabled: true,
     theme: 'lunar',
     interests: [],
     timeChoice: null,
@@ -178,6 +179,7 @@ export function normalize(input: unknown): AppState {
   return {
     seenOnboarding: raw.seenOnboarding === true,
     seenSplash: raw.seenSplash === true,
+    mantrasEnabled: raw.mantrasEnabled !== false,
     theme,
     interests,
     timeChoice,

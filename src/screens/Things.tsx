@@ -1,4 +1,5 @@
 import { statusLabel } from '../content/interests'
+import { keptSummary } from '../state/attempt'
 import { useStore } from '../state/context'
 import type { Item } from '../state/types'
 import { TopBar, Portrait, Logo } from '../components/ui'
@@ -24,13 +25,13 @@ export function Things() {
             <Logo className="face-md" />
           </div>
           <h1>Пока здесь пусто</h1>
-          <p>Сюда складываются идеи, черновики и то, что уже готово для тебя. Это не оценка.</p>
+          <p>Сюда попадёт первая попытка: название и шаги. Сам рисунок или видео остаются у тебя.</p>
           <div className="row wrap">
-            <a className="btn" href="#/thing/new">
-              У меня есть идея
+            <a className="btn" href="#/now">
+              Выбрать, что попробовать
             </a>
-            <a className="btn ghost" href="#/zine">
-              Открыть затеи
+            <a className="btn ghost" href="#/thing/new">
+              Своя идея
             </a>
           </div>
         </article>
@@ -45,7 +46,7 @@ export function Things() {
                 <span className="card-copy">
                   <span className="sticker">{statusLabel(item.status)}</span>
                   <strong>{item.title}</strong>
-                  {item.nextStep ? <span>Дальше: {item.nextStep}</span> : <span>Без следующего шага</span>}
+                  <span>{keptSummary(item)}</span>
                   {from ? <em>{from}</em> : null}
                 </span>
               </a>

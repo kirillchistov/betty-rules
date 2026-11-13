@@ -4,6 +4,7 @@ const links: { name: Route['name']; href: string; label: string }[] = [
   { name: 'now', href: '#/now', label: 'Сейчас' },
   { name: 'zine', href: '#/zine', label: 'Затея' },
   { name: 'things', href: '#/things', label: 'Мои затеи' },
+  { name: 'mantras', href: '#/mantras', label: 'Мантры' },
 ]
 
 export function Nav({ current }: { current: Route['name'] }) {
